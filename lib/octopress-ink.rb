@@ -102,8 +102,10 @@ module Octopress
     end
 
     def self.plugin_info(name, options)
+      config = options.delete('config') # Jekyll conflicts with this option
       Plugins.register site(options)
-      options.delete('config')
+      options['config'] = config
+
       if p = plugin(name)
         puts p.info(options)
       else
@@ -112,7 +114,10 @@ module Octopress
     end
 
     def self.copy_plugin_assets(name, options)
+      config = options.delete('config') # Jekyll conflicts with this option
       Plugins.register site(options)
+      options['config'] = config
+
       if path = options.delete('path')
         full_path = File.join(Plugins.site.source, path)
         if !Dir["#{full_path}/*"].empty? && options['force'].nil?
@@ -121,6 +126,7 @@ module Octopress
       else
         full_path = File.join(Plugins.site.source, Plugins.custom_dir, name)
       end
+      
       if p = plugin(name)
         copied = p.copy_asset_files(full_path, options)
         if !copied.empty?
