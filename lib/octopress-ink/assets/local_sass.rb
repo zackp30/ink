@@ -16,8 +16,7 @@ module Octopress
         end
 
         def compile
-          options = Plugins.sass_options
-          compiled = Plugins.compile_sass_file(path.to_s, options)
+          AssetPipeline.compile_sass_file(path.to_s)
         end
 
         def add

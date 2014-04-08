@@ -19,7 +19,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "jekyll", "~> 1.5", ">= 1.5.1"
-  spec.add_runtime_dependency "sass", "~> 3.3.0"
+  spec.add_runtime_dependency "sass", "~> 3.3.4"
+  spec.add_runtime_dependency "autoprefixer-rails", "~> 1.1", ">= 1.1.20140403"
 
   spec.add_development_dependency "octopress"
   spec.add_development_dependency "bundler", "~> 1.3"

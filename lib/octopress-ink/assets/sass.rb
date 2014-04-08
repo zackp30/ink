@@ -33,9 +33,9 @@ module Octopress
 
         def compile
           unless @compiled
-            options = Plugins.sass_options
+            options = AssetPipeline.sass_options
             options[:load_paths] = [user_load_path, theme_load_path]
-            @compiled = Plugins.compile_sass(path.read, options)
+            @compiled = AssetPipeline.compile_sass(path.read, options)
           end
           @compiled
         end
