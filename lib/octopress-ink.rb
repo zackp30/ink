@@ -104,7 +104,7 @@ module Octopress
     def self.plugin_info(name, options)
       config = options.delete('config') # Jekyll conflicts with this option
       Plugins.register site(options)
-      options['config'] = config
+      options['config'] = config if config
 
       if p = plugin(name)
         puts p.info(options)
@@ -116,7 +116,7 @@ module Octopress
     def self.copy_plugin_assets(name, options)
       config = options.delete('config') # Jekyll conflicts with this option
       Plugins.register site(options)
-      options['config'] = config
+      options['config'] = config if config
 
       if path = options.delete('path')
         full_path = File.join(Plugins.site.source, path)
@@ -148,7 +148,7 @@ module Octopress
       Plugins.register site(options)
       puts "\nCurrently installed plugins:"
       if plugins.size > 0
-        plugins.each { |plugin| puts plugin.name }
+        plugins.each { |plugin| puts plugin.name + " (#{plugin.slug})" }
       else
         puts "You have no plugins installed."
       end
@@ -194,7 +194,7 @@ Liquid::Template.register_tag('_', Octopress::Ink::Tags::LineCommentTag)
 Liquid::Template.register_tag('doc_url', Octopress::Ink::Tags::DocUrlTag)
 
 require 'octopress-ink/plugins/ink'
-require 'octopress-ink/plugins/asset_pipeline'
+require 'octopress-ink/plugins/local_asset_pipeline'
 
 Octopress::Ink.register_plugin(Octopress::Ink::InkPlugin)
 Octopress::Ink.register_plugin(Octopress::Ink::AssetPipelinePlugin)
