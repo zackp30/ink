@@ -12,7 +12,7 @@ module Octopress
       end
 
       def self.sass_options
-        config = Plugins.site.config
+        config = Plugins.site.config['sass']
         
         defaults = {
           'style'        => :compressed,
@@ -20,33 +20,9 @@ module Octopress
           'line_numbers' => false
         }
 
-        options = defaults.deep_merge(config['sass'] || {}).symbolize_keys
+        options = defaults.deep_merge(config || {}).symbolize_keys
         options = options.each{ |k,v| options[k] = v.to_sym if v.is_a? String }
         options
-      end
-
-      # Copy/Generate Stylesheets
-      #
-      def self.add_stylesheets
-       
-        if Ink.config['concat_css']
-          write_combined_stylesheet
-        else
-          Plugins.add_assets(%w{css sass})
-        end
-      end
-
-      def self.stylesheet_tags
-        if Ink.config['concat_css']
-          combined_stylesheet_tag
-        else
-          css = []
-          Plugins.plugins.each do |plugin| 
-            css.concat plugin.stylesheet_tags
-            css.concat plugin.sass_tags
-          end
-          css
-        end
       end
 
       def self.combined_stylesheet_tag

@@ -3,7 +3,7 @@ module Octopress
     module Tags
       class StylesheetTag < Liquid::Tag
         def render(context)
-          AssetPipeline.stylesheet_tags
+          Plugins.stylesheet_tags
         end
       end
     end

@@ -45,7 +45,7 @@ module Octopress
       def self.add_files
         add_assets(%w{images pages files fonts docs})
         plugin('octopress-asset-pipeline').register_assets
-        AssetPipeline.add_stylesheets
+        add_stylesheets
         add_javascripts
       end
 
@@ -116,6 +116,29 @@ module Octopress
 
       def self.custom_dir
         site.config['plugins']
+      end
+
+      def self.stylesheet_tags
+        if Ink.config['concat_css']
+          AssetPipeline.combined_stylesheet_tag
+        else
+          css = []
+          Plugins.plugins.each do |plugin| 
+            css.concat plugin.stylesheet_tags
+            css.concat plugin.sass_tags
+          end
+          css
+        end
+      end
+
+      # Copy/Generate Stylesheets
+      #
+      def self.add_stylesheets
+        if Ink.config['concat_css']
+          AssetPipeline.write_combined_stylesheet
+        else
+          Plugins.add_assets(%w{css sass})
+        end
       end
 
       def self.combined_javascript_path
